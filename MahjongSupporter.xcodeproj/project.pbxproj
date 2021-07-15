@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		973FEDFC269FE8B20054580B /* UnitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973FEDFB269FE8B20054580B /* UnitData.swift */; };
 		97E1BBE9269D4068000A2E2E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E1BBE8269D4068000A2E2E /* AppDelegate.swift */; };
 		97E1BBEB269D4068000A2E2E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E1BBEA269D4068000A2E2E /* SceneDelegate.swift */; };
 		97E1BBED269D4068000A2E2E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E1BBEC269D4068000A2E2E /* ViewController.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		973FEDFB269FE8B20054580B /* UnitData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitData.swift; sourceTree = "<group>"; };
 		97E1BBE5269D4068000A2E2E /* MahjongSupporter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MahjongSupporter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97E1BBE8269D4068000A2E2E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97E1BBEA269D4068000A2E2E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 				97E1BBF1269D406B000A2E2E /* Assets.xcassets */,
 				97E1BBF3269D406B000A2E2E /* LaunchScreen.storyboard */,
 				97E1BBF6269D406B000A2E2E /* Info.plist */,
+				973FEDFB269FE8B20054580B /* UnitData.swift */,
 			);
 			path = MahjongSupporter;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				97E1BBED269D4068000A2E2E /* ViewController.swift in Sources */,
 				97E1BBE9269D4068000A2E2E /* AppDelegate.swift in Sources */,
 				97E1BBEB269D4068000A2E2E /* SceneDelegate.swift in Sources */,
+				973FEDFC269FE8B20054580B /* UnitData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -436,15 +440,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3QTJ8C3UN8;
+				DEVELOPMENT_TEAM = Q77G9L4656;
 				INFOPLIST_FILE = MahjongSupporter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kr.dy.MahjongSupporter;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.dy.mahjong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -455,15 +461,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3QTJ8C3UN8;
+				DEVELOPMENT_TEAM = Q77G9L4656;
 				INFOPLIST_FILE = MahjongSupporter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = kr.dy.MahjongSupporter;
+				PRODUCT_BUNDLE_IDENTIFIER = kr.dy.mahjong;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -475,7 +483,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3QTJ8C3UN8;
+				DEVELOPMENT_TEAM = Q77G9L4656;
 				INFOPLIST_FILE = MahjongSupporterTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -497,7 +505,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3QTJ8C3UN8;
+				DEVELOPMENT_TEAM = Q77G9L4656;
 				INFOPLIST_FILE = MahjongSupporterTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -518,7 +526,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3QTJ8C3UN8;
+				DEVELOPMENT_TEAM = Q77G9L4656;
 				INFOPLIST_FILE = MahjongSupporterUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -538,7 +546,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 3QTJ8C3UN8;
+				DEVELOPMENT_TEAM = Q77G9L4656;
 				INFOPLIST_FILE = MahjongSupporterUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
