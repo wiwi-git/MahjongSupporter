@@ -3,7 +3,7 @@
 //  MahjongSupporter
 //
 //  Created by 위대연 on 2021/07/15.
-//
+// View: https://www.figma.com/file/fvIc4AZLbGt7Xw7cxZGS4B/%EB%A7%88%EC%9E%91%ED%8C%A8?node-id=5%3A1290
 
 import UIKit
 
