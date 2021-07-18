@@ -13,7 +13,19 @@ class UnitInitViewController: UIViewController {
     var totalData = [Unit]()
     var selectedUnit : [Unit] = []
     let maxCount = 15
-    var scrollView = UIScrollView()
+    
+    var kanjiData = [Unit]()
+    var dotData = [Unit]()
+    var bambooData = [Unit]()
+    var charData = [Unit]()
+    var collectionView:UICollectionView!
+    
+    enum Sections:Int,CaseIterable {
+        case kanji = 0
+        case dot
+        case bamboo
+        case char
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,12 +38,19 @@ class UnitInitViewController: UIViewController {
         selectedView.layer.borderWidth = 1
         selectedView.layer.borderColor = UIColor.black.cgColor
         
-        self.scrollView = UIScrollView(frame: CGRect(origin: .zero, size: self.view.frame.size))
-        self.view.addSubview(self.scrollView)
-        self.scrollView.snp.makeConstraints { m in
+        let collectionViewLayout = UICollectionViewFlowLayout()
+        
+        self.collectionView = UICollectionView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 100)), collectionViewLayout: collectionViewLayout)
+        self.view.addSubview(self.collectionView)
+        self.collectionView.snp.makeConstraints { m in
             m.top.equalTo(selectedView.snp.bottom)
             m.leading.trailing.equalToSuperview()
         }
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        
+        
         
         let bottomBar = UIView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 100)))
         bottomBar.layer.borderColor = UIColor.black.cgColor
@@ -39,11 +58,11 @@ class UnitInitViewController: UIViewController {
         
         self.view.addSubview(bottomBar)
         bottomBar.snp.makeConstraints { m in
-            m.top.equalTo(self.scrollView.snp.bottom)
+            m.top.equalTo(self.collectionView.snp.bottom)
             m.leading.trailing.bottom.equalToSuperview()
             m.height.equalTo(40)
         }
-        
+
         let submitButton = UIButton()
         let cancelButton = UIButton()
         let buttonWidth = CGFloat(100)
@@ -72,24 +91,26 @@ class UnitInitViewController: UIViewController {
             m.trailing.equalTo(submitButton.snp.leading).offset(10)
             m.width.equalTo(buttonWidth)
         }
-        addAllUnit(scroll: self.scrollView)
+        
+        addAllUnit()
     }
     
-    func addAllUnit(scroll:UIScrollView) {
+    func addAllUnit() {
         let images = UnitData()
         let kanjiView = UIView()
         let bambooView = UIView()
         let dotView = UIView()
         let charView = UIView()
         
-        let kanjiUnits = self.createUnitbutton(type: .kanji, images: images.kanji19)
-        for unit in kanjiUnits {
-            kanjiUnits
-        }
+        self.kanjiData = self.createUnits(type: .kanji, images: images.kanji19)
+        self.bambooData = self.createUnits(type: .bamboo, images: images.bamboo19)
+        self.charData = self.createUnits(type: .char, images: images.character)
+        self.dotData = self.createUnits(type: .dotKey, images: images.dot19)
+        
     }
     
-    func createUnitbutton(type:UnitData.KeyType,images:Any) -> [UnitButton] {
-        var result: [UnitButton] = []
+    func createUnits(type:UnitData.KeyType,images:Any) -> [Unit] {
+        var result: [Unit] = []
         var units = [String:UIImage]()
         switch type {
             case .bamboo:
@@ -143,8 +164,7 @@ class UnitInitViewController: UIViewController {
         let idSuffix = key[key.startIndex ..< key.index(key.startIndex, offsetBy: 3)]
         for (i,key) in units.keys.enumerated() {
             let image = units[key]!
-            let button = UnitButton(frame: CGRect(x: 0, y: 0, width: MainViewController.unitButtonSize.width, height: MainViewController.unitButtonSize.height), unit: Unit(id: idSuffix + "-\(i)", image: image, text: key))
-            result.append(button)
+            result.append(Unit(id: idSuffix + "-\(i)", image: image, text: key))
         }
         
         return result
@@ -157,4 +177,25 @@ class UnitInitViewController: UIViewController {
         
     }
 
+}
+extension UnitInitViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return Sections.allCases.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 0
+        guard let section = Sections(rawValue: section) else { return 0 }
+        switch section {
+            case .bamboo: return self.bambooData.count
+            case .char: return self.charData.count
+            case .dot: return self.dotData.count
+            case .kanji: return self.kanjiData.count
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        return UICollectionViewCell()
+    }
+    
 }
