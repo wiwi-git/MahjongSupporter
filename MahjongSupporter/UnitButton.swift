@@ -8,7 +8,7 @@
 import UIKit
 
 class UnitButton: UIButton {
-    var unitData:Unit = Unit(id: 0, text: "", color: .white)
+    var unitData:Unit = Unit(id: "0", image: UIImage(), text: "")
     
     init() {
         fatalError("init() has not been implemented")

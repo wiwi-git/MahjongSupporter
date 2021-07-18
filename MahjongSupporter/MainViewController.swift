@@ -18,6 +18,7 @@ class MainViewController: UIViewController {
     var units:[Unit] = []
     var myUnitData:[Unit] = []
     var isEndInitUnit = false
+    static var unitButtonSize = UnitButtonSize()
     
     override func viewDidLoad() {
         super.viewDidLoad()
