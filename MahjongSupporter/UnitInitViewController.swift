@@ -111,6 +111,17 @@ class UnitInitViewController: UIViewController {
         let images = UnitData()
         
         self.kanjiData = self.createUnits(type: .kanji, images: images.kanji19)
+        self.kanjiData = self.kanjiData.sorted(by: { one, two in
+            let oneSplit = one.id.split(separator: "-")
+            let twoSplit = two.id.split(separator: "-")
+            return Int(oneSplit[1])! < Int(twoSplit[1])!
+        })
+        
+        for kanji in kanjiData {
+            print(kanji)
+        }
+
+        
         self.bambooData = self.createUnits(type: .bamboo, images: images.bamboo19)
         self.charData = self.createUnits(type: .char, images: images.character)
         self.dotData = self.createUnits(type: .dotKey, images: images.dot19)
@@ -176,7 +187,6 @@ class UnitInitViewController: UIViewController {
                 result.append(Unit(id: idSuffix + "-\(i)-\(k)", image: image, text: key))
             }
         }
-        
         return result
     }
     
