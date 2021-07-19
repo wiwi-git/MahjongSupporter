@@ -41,6 +41,7 @@ class UnitInitViewController: UIViewController {
         let collectionViewLayout = UICollectionViewFlowLayout()
         
         self.collectionView = UICollectionView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 100)), collectionViewLayout: collectionViewLayout)
+        self.collectionView.register(UINib(nibName: "UnitinitVCCell", bundle: nil), forCellWithReuseIdentifier: UnitInitVCCell.reuseId)
         self.view.addSubview(self.collectionView)
         self.collectionView.snp.makeConstraints { m in
             m.top.equalTo(selectedView.snp.bottom)
@@ -185,6 +186,7 @@ extension UnitInitViewController: UICollectionViewDelegate, UICollectionViewData
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 0
+        
         guard let section = Sections(rawValue: section) else { return 0 }
         switch section {
             case .bamboo: return self.bambooData.count
