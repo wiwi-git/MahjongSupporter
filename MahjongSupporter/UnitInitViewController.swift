@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 class UnitInitViewController: UIViewController {
-
+    
     var totalData = [Unit]()
     var selectedUnit : [Unit] = []
     let maxCount = 15
@@ -18,7 +18,10 @@ class UnitInitViewController: UIViewController {
     var dotData = [Unit]()
     var bambooData = [Unit]()
     var charData = [Unit]()
+    var sectionTitles = ["만수패","통수패","삭수패","자패"]
     var collectionView:UICollectionView!
+    
+    let headerID = "UnitInitHeader"
     
     enum Sections:Int,CaseIterable {
         case kanji = 0
@@ -39,17 +42,24 @@ class UnitInitViewController: UIViewController {
         selectedView.layer.borderColor = UIColor.black.cgColor
         
         let collectionViewLayout = UICollectionViewFlowLayout()
-        
+        let unitWidth = self.view.frame.width / 10
+        let unitHeight = unitWidth * 240 / 160
+        collectionViewLayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 30)
+        collectionViewLayout.itemSize = CGSize(width: unitWidth, height: unitHeight)
         self.collectionView = UICollectionView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 100)), collectionViewLayout: collectionViewLayout)
-        self.collectionView.register(UINib(nibName: "UnitinitVCCell", bundle: nil), forCellWithReuseIdentifier: UnitInitVCCell.reuseId)
+        self.collectionView.register(UINib(nibName: "UnitInitVCCell", bundle: nil), forCellWithReuseIdentifier: UnitInitVCCell.reuseId)
+        self.collectionView.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: self.headerID)
+        self.collectionView.backgroundColor = .lightGray
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        
+        
         self.view.addSubview(self.collectionView)
         self.collectionView.snp.makeConstraints { m in
             m.top.equalTo(selectedView.snp.bottom)
             m.leading.trailing.equalToSuperview()
         }
         
-        self.collectionView.delegate = self
-        self.collectionView.dataSource = self
         
         
         
@@ -63,7 +73,7 @@ class UnitInitViewController: UIViewController {
             m.leading.trailing.bottom.equalToSuperview()
             m.height.equalTo(40)
         }
-
+        
         let submitButton = UIButton()
         let cancelButton = UIButton()
         let buttonWidth = CGFloat(100)
@@ -94,14 +104,11 @@ class UnitInitViewController: UIViewController {
         }
         
         addAllUnit()
+        self.collectionView.reloadData()
     }
     
     func addAllUnit() {
         let images = UnitData()
-        let kanjiView = UIView()
-        let bambooView = UIView()
-        let dotView = UIView()
-        let charView = UIView()
         
         self.kanjiData = self.createUnits(type: .kanji, images: images.kanji19)
         self.bambooData = self.createUnits(type: .bamboo, images: images.bamboo19)
@@ -165,7 +172,9 @@ class UnitInitViewController: UIViewController {
         let idSuffix = key[key.startIndex ..< key.index(key.startIndex, offsetBy: 3)]
         for (i,key) in units.keys.enumerated() {
             let image = units[key]!
-            result.append(Unit(id: idSuffix + "-\(i)", image: image, text: key))
+            for k in 0...3 {
+                result.append(Unit(id: idSuffix + "-\(i)-\(k)", image: image, text: key))
+            }
         }
         
         return result
@@ -177,15 +186,15 @@ class UnitInitViewController: UIViewController {
     @objc func cancelButtonAction() {
         
     }
-
+    
 }
 extension UnitInitViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Sections.allCases.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
         
         guard let section = Sections(rawValue: section) else { return 0 }
         switch section {
@@ -197,7 +206,36 @@ extension UnitInitViewController: UICollectionViewDelegate, UICollectionViewData
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UnitInitVCCell.reuseId, for: indexPath) as! UnitInitVCCell
+        guard let section = Sections(rawValue: indexPath.section) else {
+            return cell
+        }
+        let unit:Unit
+        switch section {
+            case .bamboo: unit = self.bambooData[indexPath.item]
+            case .char: unit = self.charData[indexPath.item]
+            case .dot: unit = self.dotData[indexPath.item]
+            case .kanji: unit = self.kanjiData[indexPath.item]
+        }
+        cell.unitImageView.image = unit.image
+        cell.unitData = unit
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        var v : UICollectionReusableView! = nil
+        if kind == UICollectionView.elementKindSectionHeader {
+            v = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: self.headerID, for: indexPath)
+            if v.subviews.count == 0 {
+                v.addSubview(UILabel(frame:CGRect(x: 0,y: 0,width: 100,height: 30)))
+            }
+            let label = v.subviews[0] as! UILabel
+            label.text = self.sectionTitles[indexPath.section]
+            label.textAlignment = .center
+            label.backgroundColor = .brown
+            v.backgroundColor = .green
+        }
+        return v
     }
     
 }
