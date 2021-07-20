@@ -70,49 +70,49 @@ struct UnitData {
     }
     
     var kanji19: [KanjiKey:UIImage] = [
-        .kanji1:UIImage(named: "만1")!,
-        .kanji2:UIImage(named: "만2")!,
-        .kanji3:UIImage(named: "만3")!,
-        .kanji4:UIImage(named: "만4")!,
-        .kanji5:UIImage(named: "만5")!,
-        .kanji6:UIImage(named: "만6")!,
-        .kanji7:UIImage(named: "만7")!,
-        .kanji8:UIImage(named: "만8")!,
-        .kanji9:UIImage(named: "만9")!
+        .kanji1:UIImage(named: "man1")!,
+        .kanji2:UIImage(named: "man2")!,
+        .kanji3:UIImage(named: "man3")!,
+        .kanji4:UIImage(named: "man4")!,
+        .kanji5:UIImage(named: "man5")!,
+        .kanji6:UIImage(named: "man6")!,
+        .kanji7:UIImage(named: "man7")!,
+        .kanji8:UIImage(named: "man8")!,
+        .kanji9:UIImage(named: "man9")!,
     ]
     
     var bamboo19:[BambooKey:UIImage] = [
-        .bamboo1:UIImage(named: "삭1")!,
-        .bamboo2:UIImage(named: "삭2")!,
-        .bamboo3:UIImage(named: "삭3")!,
-        .bamboo4:UIImage(named: "삭4")!,
-        .bamboo5:UIImage(named: "삭5")!,
-        .bamboo6:UIImage(named: "삭6")!,
-        .bamboo7:UIImage(named: "삭7")!,
-        .bamboo8:UIImage(named: "삭8")!,
-        .bamboo9:UIImage(named: "삭9")!
+        .bamboo1:UIImage(named: "sac1")!,
+        .bamboo2:UIImage(named: "sac2")!,
+        .bamboo3:UIImage(named: "sac3")!,
+        .bamboo4:UIImage(named: "sac4")!,
+        .bamboo5:UIImage(named: "sac5")!,
+        .bamboo6:UIImage(named: "sac6")!,
+        .bamboo7:UIImage(named: "sac7")!,
+        .bamboo8:UIImage(named: "sac8")!,
+        .bamboo9:UIImage(named: "sac9")!
     ]
     
     var dot19:[DotKey:UIImage] = [
-        .dot1:UIImage(named: "통1")!,
-        .dot2:UIImage(named: "통2")!,
-        .dot3:UIImage(named: "통3")!,
-        .dot4:UIImage(named: "통4")!,
-        .dot5:UIImage(named: "통5")!,
-        .dot6:UIImage(named: "통6")!,
-        .dot7:UIImage(named: "통7")!,
-        .dot8:UIImage(named: "통8")!,
-        .dot9:UIImage(named: "통9")!
+        .dot1:UIImage(named: "dot1")!,
+        .dot2:UIImage(named: "dot2")!,
+        .dot3:UIImage(named: "dot3")!,
+        .dot4:UIImage(named: "dot4")!,
+        .dot5:UIImage(named: "dot5")!,
+        .dot6:UIImage(named: "dot6")!,
+        .dot7:UIImage(named: "dot7")!,
+        .dot8:UIImage(named: "dot8")!,
+        .dot9:UIImage(named: "dot9")!
     ]
     
     var character:[CharacterKey:UIImage] = [
-        .east:UIImage(named: "자-동")!,
-        .west:UIImage(named: "자-서")!,
-        .south:UIImage(named: "자-남")!,
-        .north:UIImage(named: "자-북")!,
-        .haku:UIImage(named: "자-백")!,
-        .hatsu:UIImage(named: "자-발")!,
-        .chuu:UIImage(named: "자-중")!,
+        .east:UIImage(named: "jaEast")!,
+        .west:UIImage(named: "jaWest")!,
+        .south:UIImage(named: "jaSouth")!,
+        .north:UIImage(named: "jaNorth")!,
+        .haku:UIImage(named: "jaHaku")!,
+        .hatsu:UIImage(named: "jaHatsu")!,
+        .chuu:UIImage(named: "jaChuu")!,
     ]
 }
 
