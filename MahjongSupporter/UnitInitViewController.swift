@@ -42,9 +42,9 @@ class UnitInitViewController: UIViewController {
         selectedView.layer.borderColor = UIColor.black.cgColor
         
         let collectionViewLayout = UICollectionViewFlowLayout()
-        let unitWidth = self.view.frame.width / 10
+        let unitWidth = self.view.frame.width / 9
         let unitHeight = unitWidth * 240 / 160
-        collectionViewLayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 30)
+        collectionViewLayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 50)
         collectionViewLayout.itemSize = CGSize(width: unitWidth, height: unitHeight)
         self.collectionView = UICollectionView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 100)), collectionViewLayout: collectionViewLayout)
         self.collectionView.register(UINib(nibName: "UnitInitVCCell", bundle: nil), forCellWithReuseIdentifier: UnitInitVCCell.reuseId)
@@ -59,9 +59,6 @@ class UnitInitViewController: UIViewController {
             m.top.equalTo(selectedView.snp.bottom)
             m.leading.trailing.equalToSuperview()
         }
-        
-        
-        
         
         let bottomBar = UIView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 100)))
         bottomBar.layer.borderColor = UIColor.black.cgColor
@@ -111,20 +108,13 @@ class UnitInitViewController: UIViewController {
         let images = UnitData()
         
         self.kanjiData = self.createUnits(type: .kanji, images: images.kanji19)
-        self.kanjiData = self.kanjiData.sorted(by: { one, two in
-            let oneSplit = one.id.split(separator: "-")
-            let twoSplit = two.id.split(separator: "-")
-            return Int(oneSplit[1])! < Int(twoSplit[1])!
-        })
-        
-        for kanji in kanjiData {
-            print(kanji)
-        }
-
-        
+        self.kanjiData.sort { $0.id < $1.id }
         self.bambooData = self.createUnits(type: .bamboo, images: images.bamboo19)
+        self.bambooData.sort { $0.id < $1.id }
         self.charData = self.createUnits(type: .char, images: images.character)
+        self.charData.sort { $0.id < $1.id }
         self.dotData = self.createUnits(type: .dotKey, images: images.dot19)
+        self.dotData.sort { $0.id < $1.id }
         
     }
     
@@ -145,13 +135,13 @@ class UnitInitViewController: UIViewController {
                 units[UnitData.BambooKey.bamboo9.rawValue] = transImages[.bamboo9]
             case .char:
                 let transImages = images as! [UnitData.CharacterKey:UIImage]
-                units[UnitData.CharacterKey.chuu.rawValue] = transImages[.chuu]
-                units[UnitData.CharacterKey.east.rawValue] = transImages[.east]
-                units[UnitData.CharacterKey.haku.rawValue] = transImages[.haku]
-                units[UnitData.CharacterKey.hatsu.rawValue] = transImages[.hatsu]
-                units[UnitData.CharacterKey.north.rawValue] = transImages[.north]
-                units[UnitData.CharacterKey.south.rawValue] = transImages[.south]
-                units[UnitData.CharacterKey.west.rawValue] = transImages[.west]
+                units[UnitData.CharacterKey.charChuu6.rawValue] = transImages[.charChuu6]
+                units[UnitData.CharacterKey.charEast1.rawValue] = transImages[.charEast1]
+                units[UnitData.CharacterKey.charHaku5.rawValue] = transImages[.charHaku5]
+                units[UnitData.CharacterKey.charHatsu7.rawValue] = transImages[.charHatsu7]
+                units[UnitData.CharacterKey.charNorth4.rawValue] = transImages[.charNorth4]
+                units[UnitData.CharacterKey.charSouth3.rawValue] = transImages[.charSouth3]
+                units[UnitData.CharacterKey.charWest2.rawValue] = transImages[.charWest2]
             case .dotKey:
                 let transImages = images as! [UnitData.DotKey:UIImage]
                 units[UnitData.DotKey.dot1.rawValue] = transImages[.dot1]
@@ -181,10 +171,10 @@ class UnitInitViewController: UIViewController {
         }
         
         let idSuffix = key[key.startIndex ..< key.index(key.startIndex, offsetBy: 3)]
-        for (i,key) in units.keys.enumerated() {
+        for key in units.keys {
             let image = units[key]!
             for k in 0...3 {
-                result.append(Unit(id: idSuffix + "-\(i)-\(k)", image: image, text: key))
+                result.append(Unit(id: idSuffix + "-\(key.last!)-\(k)", image: image, text: key))
             }
         }
         return result
@@ -237,15 +227,30 @@ extension UnitInitViewController: UICollectionViewDelegate, UICollectionViewData
         if kind == UICollectionView.elementKindSectionHeader {
             v = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: self.headerID, for: indexPath)
             if v.subviews.count == 0 {
-                v.addSubview(UILabel(frame:CGRect(x: 0,y: 0,width: 100,height: 30)))
+                v.addSubview(UILabel(frame:CGRect(x: 0,y: 0,width: collectionView.frame.width - 40, height: 50)))
             }
             let label = v.subviews[0] as! UILabel
             label.text = self.sectionTitles[indexPath.section]
             label.textAlignment = .center
-            label.backgroundColor = .brown
-            v.backgroundColor = .green
+            label.font = UIFont.systemFont(ofSize: 20, weight: .medium)
         }
         return v
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! UnitInitVCCell
+        cell.layer.borderWidth = 2
+        cell.darkView?.isHidden = false
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! UnitInitVCCell
+        cell.layer.borderWidth = 0
+        cell.darkView?.isHidden = true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
     
 }

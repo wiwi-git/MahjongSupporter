@@ -17,12 +17,13 @@ struct UnitButtonSize {
 }
 
 struct UnitData {
-    enum KeyType {
-        case kanji
-        case bamboo
-        case dotKey
-        case char
+    enum KeyType:String {
+        case kanji = "ka"
+        case bamboo = "ba"
+        case dotKey = "do"
+        case char = "ch"
     }
+    
     enum KanjiKey: String {
         case kanji1 = "kanji1"
         case kanji2 = "kanji2"
@@ -60,13 +61,13 @@ struct UnitData {
     }
     
     enum CharacterKey: String {
-        case east = "chareast"
-        case west = "cahrwest"
-        case south = "charsouth"
-        case north = "charnorth"
-        case haku = "charhaku"
-        case hatsu = "charhatsu"
-        case chuu = "charchuu"
+        case charEast1 = "charEast1"
+        case charWest2 = "charWest2"
+        case charSouth3 = "charSouth3"
+        case charNorth4 = "charNorth4"
+        case charHaku5 = "charHaku5"
+        case charChuu6 = "charChuu6"
+        case charHatsu7 = "charHatsu7"
     }
     
     var kanji19: [KanjiKey:UIImage] = [
@@ -106,13 +107,13 @@ struct UnitData {
     ]
     
     var character:[CharacterKey:UIImage] = [
-        .east:UIImage(named: "jaEast")!,
-        .west:UIImage(named: "jaWest")!,
-        .south:UIImage(named: "jaSouth")!,
-        .north:UIImage(named: "jaNorth")!,
-        .haku:UIImage(named: "jaHaku")!,
-        .hatsu:UIImage(named: "jaHatsu")!,
-        .chuu:UIImage(named: "jaChuu")!,
+        .charEast1:UIImage(named: "jaEast")!,
+        .charWest2:UIImage(named: "jaWest")!,
+        .charSouth3:UIImage(named: "jaSouth")!,
+        .charNorth4:UIImage(named: "jaNorth")!,
+        .charHaku5:UIImage(named: "jaHaku")!,
+        .charHatsu7:UIImage(named: "jaHatsu")!,
+        .charChuu6:UIImage(named: "jaChuu")!,
     ]
 }
 
