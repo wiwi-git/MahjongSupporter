@@ -12,6 +12,7 @@
 		17BB350426A08B0900493DC9 /* UnitInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BB350326A08B0900493DC9 /* UnitInitViewController.swift */; };
 		6D5C3991823DD6B242CCA314 /* Pods_MahjongSupporterTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B56841A71A155E1DAD326E35 /* Pods_MahjongSupporterTests.framework */; };
 		8521F12934B59F0B9B2C0CBF /* Pods_MahjongSupporter_MahjongSupporterUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4175BBF8E3E2E84ACFDA878 /* Pods_MahjongSupporter_MahjongSupporterUITests.framework */; };
+		971995BF26A7D13D00D97D70 /* SelectedUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971995BE26A7D13D00D97D70 /* SelectedUnitViewController.swift */; };
 		973FEDFC269FE8B20054580B /* UnitData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 973FEDFB269FE8B20054580B /* UnitData.swift */; };
 		975E243426A52F67003314AD /* UnitInitVCCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975E243226A52F67003314AD /* UnitInitVCCell.swift */; };
 		975E243526A52F67003314AD /* UnitInitVCCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 975E243326A52F67003314AD /* UnitInitVCCell.xib */; };
@@ -51,6 +52,7 @@
 		37604E35C5C8AFE3266BD5B1 /* Pods-MahjongSupporterTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MahjongSupporterTests.debug.xcconfig"; path = "Target Support Files/Pods-MahjongSupporterTests/Pods-MahjongSupporterTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5D1D3D7E4C56E7B9CDEA73E6 /* Pods-MahjongSupporter.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MahjongSupporter.debug.xcconfig"; path = "Target Support Files/Pods-MahjongSupporter/Pods-MahjongSupporter.debug.xcconfig"; sourceTree = "<group>"; };
 		79D13007730813B9C6894F31 /* Pods-MahjongSupporter.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MahjongSupporter.release.xcconfig"; path = "Target Support Files/Pods-MahjongSupporter/Pods-MahjongSupporter.release.xcconfig"; sourceTree = "<group>"; };
+		971995BE26A7D13D00D97D70 /* SelectedUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedUnitViewController.swift; sourceTree = "<group>"; };
 		973FEDFB269FE8B20054580B /* UnitData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitData.swift; sourceTree = "<group>"; };
 		975E243226A52F67003314AD /* UnitInitVCCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitInitVCCell.swift; sourceTree = "<group>"; };
 		975E243326A52F67003314AD /* UnitInitVCCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnitInitVCCell.xib; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				17BB350326A08B0900493DC9 /* UnitInitViewController.swift */,
 				975E243226A52F67003314AD /* UnitInitVCCell.swift */,
 				975E243326A52F67003314AD /* UnitInitVCCell.xib */,
+				971995BE26A7D13D00D97D70 /* SelectedUnitViewController.swift */,
 			);
 			path = MahjongSupporter;
 			sourceTree = "<group>";
@@ -428,6 +431,7 @@
 				97E1BBED269D4068000A2E2E /* MainViewController.swift in Sources */,
 				975E243426A52F67003314AD /* UnitInitVCCell.swift in Sources */,
 				97E1BBE9269D4068000A2E2E /* AppDelegate.swift in Sources */,
+				971995BF26A7D13D00D97D70 /* SelectedUnitViewController.swift in Sources */,
 				973FEDFC269FE8B20054580B /* UnitData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

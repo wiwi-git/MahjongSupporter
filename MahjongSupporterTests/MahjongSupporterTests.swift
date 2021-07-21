@@ -2,7 +2,7 @@
 //  MahjongSupporterTests.swift
 //  MahjongSupporterTests
 //
-//  Created by Emoticbox on 2021/07/13.
+//  Created by 위대연 on 2021/07/13.
 //
 
 import XCTest

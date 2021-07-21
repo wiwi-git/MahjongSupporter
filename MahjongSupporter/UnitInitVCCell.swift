@@ -2,7 +2,7 @@
 //  UnitInitVCCell.swift
 //  MahjongSupporter
 //
-//  Created by Emoticbox on 2021/07/19.
+//  Created by 위대연 on 2021/07/19.
 //
 
 import UIKit

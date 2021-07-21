@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import SnapKit
 
 class UnitInitViewController: UIViewController {
     
@@ -20,7 +19,6 @@ class UnitInitViewController: UIViewController {
     var charData = [Unit]()
     var sectionTitles = ["만수패","통수패","삭수패","자패"]
     var collectionView:UICollectionView!
-    
     let headerID = "UnitInitHeader"
     
     enum Sections:Int,CaseIterable {
@@ -40,6 +38,12 @@ class UnitInitViewController: UIViewController {
         }
         selectedView.layer.borderWidth = 1
         selectedView.layer.borderColor = UIColor.black.cgColor
+        
+        let selectedUnitVC = SelectedUnitViewController()
+        selectedUnitVC.view.frame = selectedView.frame
+        self.addChild(selectedUnitVC)
+        selectedView.addSubview(selectedUnitVC.view)
+        selectedUnitVC.didMove(toParent: self)
         
         let collectionViewLayout = UICollectionViewFlowLayout()
         let unitWidth = self.view.frame.width / 9
