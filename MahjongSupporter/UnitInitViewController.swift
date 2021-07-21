@@ -10,7 +10,6 @@ import UIKit
 class UnitInitViewController: UIViewController {
     
     var totalData = [Unit]()
-    var selectedUnit : [Unit] = []
     let maxCount = 15
     
     var kanjiData = [Unit]()
@@ -20,6 +19,10 @@ class UnitInitViewController: UIViewController {
     var sectionTitles = ["만수패","통수패","삭수패","자패"]
     var collectionView:UICollectionView!
     let headerID = "UnitInitHeader"
+    
+    let selectedUnitVC = SelectedUnitViewController()
+    
+    var alertVC:UIAlertController!
     
     enum Sections:Int,CaseIterable {
         case kanji = 0
@@ -39,14 +42,19 @@ class UnitInitViewController: UIViewController {
         selectedView.layer.borderWidth = 1
         selectedView.layer.borderColor = UIColor.black.cgColor
         
-        let selectedUnitVC = SelectedUnitViewController()
-        selectedUnitVC.view.frame = selectedView.frame
+        
         self.addChild(selectedUnitVC)
+        selectedUnitVC.view.frame = CGRect(origin: .zero, size: selectedView.frame.size)
         selectedView.addSubview(selectedUnitVC.view)
+        
+        selectedUnitVC.view.snp.makeConstraints { m in
+            m.top.leading.trailing.bottom.equalToSuperview()
+        }
         selectedUnitVC.didMove(toParent: self)
         
+        
         let collectionViewLayout = UICollectionViewFlowLayout()
-        let unitWidth = self.view.frame.width / 9
+        let unitWidth = self.view.frame.width / 10
         let unitHeight = unitWidth * 240 / 160
         collectionViewLayout.headerReferenceSize = CGSize(width: self.view.frame.width, height: 50)
         collectionViewLayout.itemSize = CGSize(width: unitWidth, height: unitHeight)
@@ -103,6 +111,9 @@ class UnitInitViewController: UIViewController {
             m.trailing.equalTo(submitButton.snp.leading).offset(10)
             m.width.equalTo(buttonWidth)
         }
+        
+        self.alertVC = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
+        
         
         addAllUnit()
         self.collectionView.reloadData()
@@ -177,9 +188,7 @@ class UnitInitViewController: UIViewController {
         let idSuffix = key[key.startIndex ..< key.index(key.startIndex, offsetBy: 3)]
         for key in units.keys {
             let image = units[key]!
-            for k in 0...3 {
-                result.append(Unit(id: idSuffix + "-\(key.last!)-\(k)", image: image, text: key))
-            }
+            result.append(Unit(id: idSuffix + "-\(key.last!)", image: image, text: key))
         }
         return result
     }
@@ -253,8 +262,39 @@ extension UnitInitViewController: UICollectionViewDelegate, UICollectionViewData
         cell.darkView?.isHidden = true
     }
     
+    func showAlert(title:String?,message:String?,actions:[UIAlertAction] = [UIAlertAction(title: "ok", style: .cancel, handler: nil)]) {
+        self.alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        for action in actions {
+            self.alertVC.addAction(action)
+        }
+        self.present(self.alertVC, animated: true, completion: nil)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("didSelect \(indexPath)")
+        guard let section = Sections(rawValue: indexPath.section) else {
+            return
+        }
+        let unit:Unit
+        switch section {
+            case .bamboo: unit = self.bambooData[indexPath.item]
+            case .char: unit = self.charData[indexPath.item]
+            case .dot: unit = self.dotData[indexPath.item]
+            case .kanji: unit = self.kanjiData[indexPath.item]
+        }
         
+        guard self.selectedUnitVC.selectedUnit.count < 15 else {
+            self.showAlert(title: nil, message: "가질 수 있는 패의 최대 갯수는 15장 입니다.\n추가를 하시려면 기존 추가한 패를 버려주세요.")
+            return
+        }
+        let filtered = self.selectedUnitVC.selectedUnit.filter { saved in
+            return saved.id == unit.id
+        }
+        if filtered.count < 4 {
+            self.selectedUnitVC.selectedUnit.append(unit)
+        } else {
+            self.showAlert(title: nil, message: "같은 패는 4개를 초과할 수 없습니다.")
+        }
     }
     
 }
