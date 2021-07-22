@@ -48,7 +48,6 @@ class MainViewController: UIViewController {
     }
     
     @objc func initButtonAction() {
-        let frame = CGRect(origin: .zero, size: CGSize(width: 50, height: 50))
         
     }
     

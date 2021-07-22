@@ -8,6 +8,7 @@
 import UIKit
 
 class SelectedUnitViewController: UIViewController {
+    var calledVc: UIViewController?
     var collectionView:UICollectionView!
     var selectedUnit = [Unit]() {
         didSet{
@@ -34,7 +35,6 @@ class SelectedUnitViewController: UIViewController {
 extension SelectedUnitViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.selectedUnit.count
-
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -44,6 +44,32 @@ extension SelectedUnitViewController: UICollectionViewDelegate, UICollectionView
         cell.unitData = item
         cell.unitImageView.image = item.image
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! UnitInitVCCell
+        cell.darkView?.isHidden = false
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! UnitInitVCCell
+        cell.darkView?.isHidden = true
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let unit = self.selectedUnit[indexPath.item]
+        (self.calledVc as? UnitInitViewController)?
+            .showAlert(title: nil, message: "이 패를 버리시겠습니까?", actions:
+                        [
+                            UIAlertAction(title: "yes", style: .default, handler: { _ in
+                                collectionView.deleteItems(at: [indexPath])
+                                if self.selectedUnit[indexPath.item].id == unit.id {
+                                    self.selectedUnit.remove(at: indexPath.item)
+                                }
+                            }),
+                            UIAlertAction(title: "no", style: .cancel, handler: nil)
+                        ]
+            )
     }
     
 }

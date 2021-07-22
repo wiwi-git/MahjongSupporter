@@ -51,6 +51,7 @@ class UnitInitViewController: UIViewController {
             m.top.leading.trailing.bottom.equalToSuperview()
         }
         selectedUnitVC.didMove(toParent: self)
+        selectedUnitVC.calledVc = self
         
         
         let collectionViewLayout = UICollectionViewFlowLayout()
@@ -193,10 +194,27 @@ class UnitInitViewController: UIViewController {
         return result
     }
     
-    @objc func submitButtonAction() {
-        
+    func showAlert(title:String?,message:String?,actions:[UIAlertAction] = [UIAlertAction(title: "ok", style: .cancel, handler: nil)]) {
+        self.alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        for action in actions {
+            self.alertVC.addAction(action)
+        }
+        self.present(self.alertVC, animated: true, completion: nil)
     }
+    
+    @objc func submitButtonAction() {
+        if self.selectedUnitVC.selectedUnit.count < 15 {
+            self.showAlert(title: nil, message: "패는 15장 선택되어야 합니다.")
+        }
+    }
+    
     @objc func cancelButtonAction() {
+        self.showAlert(title: nil, message: "초기패 선택창을 닫으시겠습니까?",actions: [
+            UIAlertAction(title: "ok", style: .default, handler: { _ in
+                self.dismiss(animated: true, completion: nil)
+            }),
+            UIAlertAction(title: "no", style: .cancel, handler: nil)
+        ])
         
     }
     
@@ -260,14 +278,6 @@ extension UnitInitViewController: UICollectionViewDelegate, UICollectionViewData
         let cell = collectionView.cellForItem(at: indexPath) as! UnitInitVCCell
         cell.layer.borderWidth = 0
         cell.darkView?.isHidden = true
-    }
-    
-    func showAlert(title:String?,message:String?,actions:[UIAlertAction] = [UIAlertAction(title: "ok", style: .cancel, handler: nil)]) {
-        self.alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        for action in actions {
-            self.alertVC.addAction(action)
-        }
-        self.present(self.alertVC, animated: true, completion: nil)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
