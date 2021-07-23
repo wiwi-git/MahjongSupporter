@@ -8,6 +8,7 @@
 import UIKit
 
 class UnitInitViewController: UIViewController {
+    static let sbId = "sb_id_unitinit"
     
     var totalData = [Unit]()
     let maxCount = 15
@@ -21,6 +22,7 @@ class UnitInitViewController: UIViewController {
     let headerID = "UnitInitHeader"
     
     let selectedUnitVC = SelectedUnitViewController()
+
     
     var alertVC:UIAlertController!
     
@@ -205,7 +207,12 @@ class UnitInitViewController: UIViewController {
     @objc func submitButtonAction() {
         if self.selectedUnitVC.selectedUnit.count < 15 {
             self.showAlert(title: nil, message: "패는 15장 선택되어야 합니다.")
+            return
         }
+        
+        let userInfo = ["units":self.selectedUnitVC.selectedUnit]
+        NotificationCenter.default.post(name: Notification.completUnitInit, object: nil, userInfo: userInfo)
+        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func cancelButtonAction() {
@@ -215,7 +222,6 @@ class UnitInitViewController: UIViewController {
             }),
             UIAlertAction(title: "no", style: .cancel, handler: nil)
         ])
-        
     }
     
 }

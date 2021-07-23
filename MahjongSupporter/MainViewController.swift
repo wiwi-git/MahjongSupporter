@@ -10,37 +10,48 @@ import SnapKit
 
 class MainViewController: UIViewController {
     @IBOutlet weak var suggestView: UIView!
-    @IBOutlet weak var trashRootStackView: UIStackView!
-    @IBOutlet weak var line0TrashView: UIView!
-    @IBOutlet weak var line1TrashView: UIView!
-    @IBOutlet weak var myTrashStackView: UIStackView!
+    @IBOutlet weak var myUnitAreaView: UIView!
+    @IBOutlet weak var myTrashUnitAreaView: UIView!
+    @IBOutlet weak var mySelectUnitAreaView: UIView!
     
-    var units:[Unit] = []
+//    var units:[Unit] = []
     var myUnitData:[Unit] = []
     var isEndInitUnit = false
     static var unitButtonSize = UnitButtonSize()
+    var myUnits = [Unit]()
+    var initButton:UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(completUnitInitAction(_:)), name: Notification.completUnitInit, object: nil)
         
-        self.trashRootStackView.layer.borderWidth = 1
-        self.trashRootStackView.layer.borderColor = UIColor.black.cgColor
+        self.myUnitAreaView.layer.borderWidth = 1
+        self.myUnitAreaView.layer.borderColor = UIColor.black.cgColor
         
-        let initButton = UIButton(frame: CGRect(x: 0, y: 0, width: self.myTrashStackView.frame.width, height: self.myTrashStackView.frame.height))
+        self.initButton = UIButton(frame: CGRect(x: 0, y: 0, width: self.myUnitAreaView.frame.width, height: self.myUnitAreaView.frame.height))
         
-        initButton.setTitle("초기 설정을 해주세요.", for: .normal)
-        initButton.layer.borderWidth = 1
-        initButton.layer.borderColor = UIColor.black.cgColor
-        self.view.addSubview(initButton)
+        self.initButton.setTitle("초기 설정을 해주세요.", for: .normal)
+        self.initButton.layer.borderWidth = 1
+        self.initButton.layer.borderColor = UIColor.black.cgColor
+        self.view.addSubview(self.initButton)
     
-        initButton.snp.makeConstraints { m in
-            m.top.bottom.leading.trailing.equalTo(self.myTrashStackView)
+        self.initButton.snp.makeConstraints { m in
+            m.top.bottom.leading.trailing.equalTo(self.myUnitAreaView)
         }
-        self.view.bringSubviewToFront(initButton)
+        self.view.bringSubviewToFront(self.initButton)
         
-        initButton.addTarget(self, action: #selector(self.initButtonAction), for: .touchUpInside)
-        initButton.backgroundColor = UIColor.gray
-
+        self.initButton.addTarget(self, action: #selector(self.initButtonAction), for: .touchUpInside)
+        self.initButton.backgroundColor = UIColor.gray
+    }
+    
+    @objc func completUnitInitAction(_ notification:Notification) {
+        guard let userInfo = notification.userInfo,
+              let units = userInfo["units"] as? [Unit] else {
+            return
+        }
+    
+        self.initButton.isHidden = true
+        self.myUnits = units
     }
 
     @objc func myTrashButtonAction(_ sender: UIButton) {
@@ -48,8 +59,13 @@ class MainViewController: UIViewController {
     }
     
     @objc func initButtonAction() {
-        
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: UnitInitViewController.sbId) {
+            self.present(vc, animated: true, completion: nil)
+        }
     }
-    
+}
+
+extension Notification {
+    static let completUnitInit = Notification.Name(rawValue: "notification_complet_unit_init")
 }
 

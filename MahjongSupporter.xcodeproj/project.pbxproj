@@ -103,6 +103,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9714073626AA70EF009E03D0 /* UnitInit */ = {
+			isa = PBXGroup;
+			children = (
+				17BB350326A08B0900493DC9 /* UnitInitViewController.swift */,
+				975E243226A52F67003314AD /* UnitInitVCCell.swift */,
+				975E243326A52F67003314AD /* UnitInitVCCell.xib */,
+				971995BE26A7D13D00D97D70 /* SelectedUnitViewController.swift */,
+			);
+			path = UnitInit;
+			sourceTree = "<group>";
+		};
 		97E1BBDC269D4068000A2E2E = {
 			isa = PBXGroup;
 			children = (
@@ -137,10 +148,7 @@
 				973FEDFB269FE8B20054580B /* UnitData.swift */,
 				17BB34FF26A07A7F00493DC9 /* File.swift */,
 				17BB350126A0898400493DC9 /* UnitButton.swift */,
-				17BB350326A08B0900493DC9 /* UnitInitViewController.swift */,
-				975E243226A52F67003314AD /* UnitInitVCCell.swift */,
-				975E243326A52F67003314AD /* UnitInitVCCell.xib */,
-				971995BE26A7D13D00D97D70 /* SelectedUnitViewController.swift */,
+				9714073626AA70EF009E03D0 /* UnitInit */,
 			);
 			path = MahjongSupporter;
 			sourceTree = "<group>";
