@@ -26,7 +26,7 @@ class SelectedUnitViewController: UIViewController {
             m.top.bottom.leading.trailing.equalToSuperview()
         }
         
-        self.collectionView.register(UINib(nibName: "UnitInitVCCell", bundle: nil), forCellWithReuseIdentifier: UnitInitVCCell.reuseId)
+        self.collectionView.register(UINib(nibName: UnitCell.identifier, bundle: nil), forCellWithReuseIdentifier: UnitCell.reuseId)
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         self.collectionView.backgroundColor = .lightGray
@@ -39,7 +39,7 @@ extension SelectedUnitViewController: UICollectionViewDelegate, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         print("cellForItemat")
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UnitInitVCCell.reuseId, for: indexPath) as! UnitInitVCCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UnitCell.reuseId, for: indexPath) as! UnitCell
         let item = self.selectedUnit[indexPath.item]
         cell.unitData = item
         cell.unitImageView.image = item.image
@@ -47,12 +47,12 @@ extension SelectedUnitViewController: UICollectionViewDelegate, UICollectionView
     }
     
     func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! UnitInitVCCell
+        let cell = collectionView.cellForItem(at: indexPath) as! UnitCell
         cell.darkView?.isHidden = false
     }
     
     func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! UnitInitVCCell
+        let cell = collectionView.cellForItem(at: indexPath) as! UnitCell
         cell.darkView?.isHidden = true
     }
     
@@ -61,13 +61,13 @@ extension SelectedUnitViewController: UICollectionViewDelegate, UICollectionView
         (self.calledVc as? UnitInitViewController)?
             .showAlert(title: nil, message: "이 패를 버리시겠습니까?", actions:
                         [
-                            UIAlertAction(title: "yes", style: .default, handler: { _ in
+                            UIAlertAction(title: "Yes", style: .default, handler: { _ in
                                 collectionView.deleteItems(at: [indexPath])
                                 if self.selectedUnit[indexPath.item].id == unit.id {
                                     self.selectedUnit.remove(at: indexPath.item)
                                 }
                             }),
-                            UIAlertAction(title: "no", style: .cancel, handler: nil)
+                            UIAlertAction(title: "No", style: .cancel, handler: nil)
                         ]
             )
     }

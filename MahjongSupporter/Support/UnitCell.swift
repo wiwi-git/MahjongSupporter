@@ -7,8 +7,12 @@
 
 import UIKit
 
-class UnitInitVCCell: UICollectionViewCell {
+class UnitCell: UICollectionViewCell {
     static let reuseId = "cell_id_unitinitvccell"
+    
+    class var identifier: String {
+        return String(describing: self)
+    }
     
     @IBOutlet weak var unitImageView: UIImageView!
     

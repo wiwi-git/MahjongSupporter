@@ -70,7 +70,14 @@ struct UnitData {
         case charHatsu7 = "charHatsu7"
     }
     
-    var kanji19: [KanjiKey:UIImage] = [
+    static let SectionHeader:[KeyType:String] = [
+        .bamboo:"삭수패",
+        .char:"자패",
+        .dotKey:"통수패",
+        .kanji:"만수패"
+    ]
+    
+    let kanji19: [KanjiKey:UIImage] = [
         .kanji1:UIImage(named: "man1")!,
         .kanji2:UIImage(named: "man2")!,
         .kanji3:UIImage(named: "man3")!,
@@ -82,7 +89,7 @@ struct UnitData {
         .kanji9:UIImage(named: "man9")!,
     ]
     
-    var bamboo19:[BambooKey:UIImage] = [
+    let bamboo19:[BambooKey:UIImage] = [
         .bamboo1:UIImage(named: "sac1")!,
         .bamboo2:UIImage(named: "sac2")!,
         .bamboo3:UIImage(named: "sac3")!,
@@ -94,7 +101,7 @@ struct UnitData {
         .bamboo9:UIImage(named: "sac9")!
     ]
     
-    var dot19:[DotKey:UIImage] = [
+    let dot19:[DotKey:UIImage] = [
         .dot1:UIImage(named: "dot1")!,
         .dot2:UIImage(named: "dot2")!,
         .dot3:UIImage(named: "dot3")!,
@@ -106,7 +113,7 @@ struct UnitData {
         .dot9:UIImage(named: "dot9")!
     ]
     
-    var character:[CharacterKey:UIImage] = [
+    let character:[CharacterKey:UIImage] = [
         .charEast1:UIImage(named: "jaEast")!,
         .charWest2:UIImage(named: "jaWest")!,
         .charSouth3:UIImage(named: "jaSouth")!,

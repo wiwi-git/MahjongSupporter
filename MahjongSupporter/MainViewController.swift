@@ -14,11 +14,19 @@ class MainViewController: UIViewController {
     @IBOutlet weak var myTrashUnitAreaView: UIView!
     @IBOutlet weak var mySelectUnitAreaView: UIView!
     
-//    var units:[Unit] = []
+    var myUnitVC = MyUnitViewController()
+    
     var myUnitData:[Unit] = []
     var isEndInitUnit = false
-    static var unitButtonSize = UnitButtonSize()
-    var myUnits = [Unit]()
+    static var unitSize = CGSize(width: UnitButtonSize().width, height: UnitButtonSize().height)//UnitButtonSize()
+    
+//    var myUnits = [Unit]() {
+//        didSet{
+//            self.myUnits.sort { $0.id < $1.id }
+//            self.myUnitVC.myUnit = self.myUnits
+//        }
+//    }
+//
     var initButton:UIButton!
     
     override func viewDidLoad() {
@@ -27,6 +35,15 @@ class MainViewController: UIViewController {
         
         self.myUnitAreaView.layer.borderWidth = 1
         self.myUnitAreaView.layer.borderColor = UIColor.black.cgColor
+        
+        self.addChild(self.myUnitVC)
+
+        self.myUnitVC.view.frame = CGRect(origin: .zero, size: self.mySelectUnitAreaView.frame.size)
+        
+        self.mySelectUnitAreaView.addSubview(self.myUnitVC.view)
+        self.myUnitVC.view.snp.makeConstraints { m in
+            m.top.bottom.leading.trailing.equalToSuperview()
+        }
         
         self.initButton = UIButton(frame: CGRect(x: 0, y: 0, width: self.myUnitAreaView.frame.width, height: self.myUnitAreaView.frame.height))
         
@@ -39,6 +56,7 @@ class MainViewController: UIViewController {
             m.top.bottom.leading.trailing.equalTo(self.myUnitAreaView)
         }
         self.view.bringSubviewToFront(self.initButton)
+//        self.initButton.isHidden = true
         
         self.initButton.addTarget(self, action: #selector(self.initButtonAction), for: .touchUpInside)
         self.initButton.backgroundColor = UIColor.gray
@@ -51,7 +69,8 @@ class MainViewController: UIViewController {
         }
     
         self.initButton.isHidden = true
-        self.myUnits = units
+//        self.myUnits = units
+        self.myUnitVC.myUnit = units
     }
 
     @objc func myTrashButtonAction(_ sender: UIButton) {
@@ -59,9 +78,10 @@ class MainViewController: UIViewController {
     }
     
     @objc func initButtonAction() {
-        if let vc = self.storyboard?.instantiateViewController(withIdentifier: UnitInitViewController.sbId) {
-            self.present(vc, animated: true, completion: nil)
-        }
+        let vc = UnitInitViewController()
+        vc.view.frame = CGRect(origin: .zero, size: self.view.frame.size)
+        vc.view.backgroundColor = .white
+        self.present(vc, animated: true, completion: nil)
     }
 }
 

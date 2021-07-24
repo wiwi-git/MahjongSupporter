@@ -1,28 +1,26 @@
 //
-//  UnitInitViewController.swift
+//  AddNewUnitViewController.swift
 //  MahjongSupporter
 //
-//  Created by 위대연 on 2021/07/16.
+//  Created by 위대연 on 2021/07/24.
 //
 
 import UIKit
 
-class UnitInitViewController: UIViewController {
+class AddNewUnitViewController: UIViewController {
+    
     static let sbId = "sb_id_unitinit"
     
     var totalData = [Unit]()
-    let maxCount = 14
+    let maxCount = 15
     
     var kanjiData = [Unit]()
     var dotData = [Unit]()
     var bambooData = [Unit]()
     var charData = [Unit]()
-
-    var collectionView:UICollectionView!
-    let headerID = "UnitInitHeader"
     
-    let selectedUnitVC = SelectedUnitViewController()
-
+    var collectionView:UICollectionView!
+    let headerID = "AddNewUnitHeader"
     
     var alertVC:UIAlertController!
     
@@ -31,7 +29,7 @@ class UnitInitViewController: UIViewController {
         case dot
         case bamboo
         case char
-    }
+    }// 만수패, 통수패, 삭수패, 자패 순
     
     var sectionTitles:[String] = [
         UnitData.SectionHeader[.kanji]!,
@@ -40,31 +38,8 @@ class UnitInitViewController: UIViewController {
         UnitData.SectionHeader[.char]!
     ]// 만수패, 통수패, 삭수패, 자패 순
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        let selectedView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 100)))
-        self.view.addSubview(selectedView)
-        selectedView.snp.makeConstraints { m in
-            m.top.leading.trailing.equalToSuperview()
-            m.height.equalTo(100)
-        }
-        selectedView.layer.borderWidth = 1
-        selectedView.layer.borderColor = UIColor.black.cgColor
-        
-        
-        self.addChild(self.selectedUnitVC)
-        self.selectedUnitVC.view.frame = CGRect(origin: .zero, size: selectedView.frame.size)
-        selectedView.addSubview(self.selectedUnitVC.view)
-        
-        self.selectedUnitVC.view.snp.makeConstraints { m in
-            m.top.leading.trailing.bottom.equalToSuperview()
-        }
-        self.selectedUnitVC.didMove(toParent: self)
-        self.selectedUnitVC.calledVc = self
-        
-        
         let collectionViewLayout = UICollectionViewFlowLayout()
         let unitWidth = self.view.frame.width / 10
         let unitHeight = unitWidth * 240 / 160
@@ -80,8 +55,7 @@ class UnitInitViewController: UIViewController {
         
         self.view.addSubview(self.collectionView)
         self.collectionView.snp.makeConstraints { m in
-            m.top.equalTo(selectedView.snp.bottom)
-            m.leading.trailing.equalToSuperview()
+            m.top.leading.trailing.equalToSuperview()
         }
         
         let bottomBar = UIView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 100)))
@@ -204,38 +178,45 @@ class UnitInitViewController: UIViewController {
         }
         return result
     }
-    
-    func showAlert(title:String?,message:String?,actions:[UIAlertAction] = [UIAlertAction(title: "ok", style: .cancel, handler: nil)]) {
-        self.alertVC = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        for action in actions {
-            self.alertVC.addAction(action)
-        }
-        self.present(self.alertVC, animated: true, completion: nil)
-    }
-    
+
     @objc func submitButtonAction() {
-        if self.selectedUnitVC.selectedUnit.count < self.maxCount {
-            self.showAlert(title: nil, message: "패는 \(self.maxCount)장 선택되어야 합니다.")
-            return
+        if let selectedIndexArray = self.collectionView.indexPathsForSelectedItems {
+            let indexPath = selectedIndexArray.first!
+            guard let section = Sections(rawValue: indexPath.section) else {
+                return
+            }
+            let unit:Unit
+            switch section {
+                case .bamboo:
+                    unit = self.bambooData[indexPath.item]
+                case .char:
+                    unit = self.charData[indexPath.item]
+                case .dot:
+                    unit = self.dotData[indexPath.item]
+                case .kanji:
+                    unit = self.kanjiData[indexPath.item]
+            }
+            print(unit)
+        } else {
+            let alert = UIAlertController(title: nil, message: "패를 선택하셔야합니다.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: nil))
+            self.present(alert, animated: true, completion: nil)
         }
         
-        let userInfo = ["units":self.selectedUnitVC.selectedUnit]
-        NotificationCenter.default.post(name: Notification.completUnitInit, object: nil, userInfo: userInfo)
-        self.dismiss(animated: true, completion: nil)
     }
     
     @objc func cancelButtonAction() {
-        self.showAlert(title: nil, message: "초기패 선택창을 닫으시겠습니까?",actions: [
-            UIAlertAction(title: "Yes", style: .default, handler: { _ in
-                self.dismiss(animated: true, completion: nil)
-            }),
-            UIAlertAction(title: "No", style: .cancel, handler: nil)
-        ])
+        let alert = UIAlertController(title: nil, message: "패를 선택하지 않고 닫으시겠습니까?", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+            self.dismiss(animated: true, completion: nil)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }
-extension UnitInitViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-
+extension AddNewUnitViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return Sections.allCases.count
     }
@@ -283,42 +264,17 @@ extension UnitInitViewController: UICollectionViewDelegate, UICollectionViewData
         return v
     }
     
-    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! UnitCell
-        cell.layer.borderWidth = 2
-        cell.darkView?.isHidden = false
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! UnitCell
-        cell.layer.borderWidth = 0
-        cell.darkView?.isHidden = true
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("didSelect \(indexPath)")
-        guard let section = Sections(rawValue: indexPath.section) else {
-            return
+        if let selectCell = collectionView.cellForItem(at: indexPath),
+           let selectUnit = selectCell as? UnitCell{
+            selectUnit.darkView?.isHidden = false
         }
-        let unit:Unit
-        switch section {
-            case .bamboo: unit = self.bambooData[indexPath.item]
-            case .char: unit = self.charData[indexPath.item]
-            case .dot: unit = self.dotData[indexPath.item]
-            case .kanji: unit = self.kanjiData[indexPath.item]
-        }
-        
-        guard self.selectedUnitVC.selectedUnit.count < self.maxCount else {
-            self.showAlert(title: nil, message: "가질 수 있는 패의 최대 갯수는 \(self.maxCount)장 입니다.\n추가를 하시려면 기존 추가한 패를 버려주세요.")
-            return
-        }
-        let filtered = self.selectedUnitVC.selectedUnit.filter { saved in
-            return saved.id == unit.id
-        }
-        if filtered.count < 4 {
-            self.selectedUnitVC.selectedUnit.append(unit)
-        } else {
-            self.showAlert(title: nil, message: "같은 패는 4개를 초과할 수 없습니다.")
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if let selectCell = collectionView.cellForItem(at: indexPath),
+           let selectUnit = selectCell as? UnitCell{
+            selectUnit.darkView?.isHidden = true
         }
     }
     
