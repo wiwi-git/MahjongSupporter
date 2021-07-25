@@ -35,7 +35,7 @@ class UnitInitViewController: UIViewController {
     
     var sectionTitles:[String] = [
         UnitData.SectionHeader[.kanji]!,
-        UnitData.SectionHeader[.dotKey]!,
+        UnitData.SectionHeader[.dot]!,
         UnitData.SectionHeader[.bamboo]!,
         UnitData.SectionHeader[.char]!
     ]// 만수패, 통수패, 삭수패, 자패 순
@@ -132,77 +132,11 @@ class UnitInitViewController: UIViewController {
     }
     
     func addAllUnit() {
-        let images = UnitData()
-        
-        self.kanjiData = self.createUnits(type: .kanji, images: images.kanji19)
-        self.kanjiData.sort { $0.id < $1.id }
-        self.bambooData = self.createUnits(type: .bamboo, images: images.bamboo19)
-        self.bambooData.sort { $0.id < $1.id }
-        self.charData = self.createUnits(type: .char, images: images.character)
-        self.charData.sort { $0.id < $1.id }
-        self.dotData = self.createUnits(type: .dotKey, images: images.dot19)
-        self.dotData.sort { $0.id < $1.id }
-        
-    }
-    
-    func createUnits(type:UnitData.KeyType,images:Any) -> [Unit] {
-        var result: [Unit] = []
-        var units = [String:UIImage]()
-        switch type {
-            case .bamboo:
-                let transImages = images as! [UnitData.BambooKey:UIImage]
-                units[UnitData.BambooKey.bamboo1.rawValue] = transImages[.bamboo1]
-                units[UnitData.BambooKey.bamboo2.rawValue] = transImages[.bamboo2]
-                units[UnitData.BambooKey.bamboo3.rawValue] = transImages[.bamboo3]
-                units[UnitData.BambooKey.bamboo4.rawValue] = transImages[.bamboo4]
-                units[UnitData.BambooKey.bamboo5.rawValue] = transImages[.bamboo5]
-                units[UnitData.BambooKey.bamboo6.rawValue] = transImages[.bamboo6]
-                units[UnitData.BambooKey.bamboo7.rawValue] = transImages[.bamboo7]
-                units[UnitData.BambooKey.bamboo8.rawValue] = transImages[.bamboo8]
-                units[UnitData.BambooKey.bamboo9.rawValue] = transImages[.bamboo9]
-            case .char:
-                let transImages = images as! [UnitData.CharacterKey:UIImage]
-                units[UnitData.CharacterKey.charChuu6.rawValue] = transImages[.charChuu6]
-                units[UnitData.CharacterKey.charEast1.rawValue] = transImages[.charEast1]
-                units[UnitData.CharacterKey.charHaku5.rawValue] = transImages[.charHaku5]
-                units[UnitData.CharacterKey.charHatsu7.rawValue] = transImages[.charHatsu7]
-                units[UnitData.CharacterKey.charNorth4.rawValue] = transImages[.charNorth4]
-                units[UnitData.CharacterKey.charSouth3.rawValue] = transImages[.charSouth3]
-                units[UnitData.CharacterKey.charWest2.rawValue] = transImages[.charWest2]
-            case .dotKey:
-                let transImages = images as! [UnitData.DotKey:UIImage]
-                units[UnitData.DotKey.dot1.rawValue] = transImages[.dot1]
-                units[UnitData.DotKey.dot2.rawValue] = transImages[.dot2]
-                units[UnitData.DotKey.dot3.rawValue] = transImages[.dot3]
-                units[UnitData.DotKey.dot4.rawValue] = transImages[.dot4]
-                units[UnitData.DotKey.dot5.rawValue] = transImages[.dot5]
-                units[UnitData.DotKey.dot6.rawValue] = transImages[.dot6]
-                units[UnitData.DotKey.dot7.rawValue] = transImages[.dot7]
-                units[UnitData.DotKey.dot8.rawValue] = transImages[.dot8]
-                units[UnitData.DotKey.dot9.rawValue] = transImages[.dot9]
-            case .kanji:
-                let transImages = images as! [UnitData.KanjiKey:UIImage]
-                units[UnitData.KanjiKey.kanji1.rawValue] = transImages[.kanji1]
-                units[UnitData.KanjiKey.kanji2.rawValue] = transImages[.kanji2]
-                units[UnitData.KanjiKey.kanji3.rawValue] = transImages[.kanji3]
-                units[UnitData.KanjiKey.kanji4.rawValue] = transImages[.kanji4]
-                units[UnitData.KanjiKey.kanji5.rawValue] = transImages[.kanji5]
-                units[UnitData.KanjiKey.kanji6.rawValue] = transImages[.kanji6]
-                units[UnitData.KanjiKey.kanji7.rawValue] = transImages[.kanji7]
-                units[UnitData.KanjiKey.kanji8.rawValue] = transImages[.kanji8]
-                units[UnitData.KanjiKey.kanji9.rawValue] = transImages[.kanji9]
-        }
-        
-        guard let key = units.keys.first else {
-            return []
-        }
-        
-        let idSuffix = key[key.startIndex ..< key.index(key.startIndex, offsetBy: 3)]
-        for key in units.keys {
-            let image = units[key]!
-            result.append(Unit(id: idSuffix + "-\(key.last!)", image: image, text: key))
-        }
-        return result
+        let userData = UserData.shared
+        self.kanjiData = userData.yourUnits[.kanji]!
+        self.bambooData = userData.yourUnits[.bamboo]!
+        self.charData = userData.yourUnits[.char]!
+        self.dotData = userData.yourUnits[.dot]!
     }
     
     func showAlert(title:String?,message:String?,actions:[UIAlertAction] = [UIAlertAction(title: "ok", style: .cancel, handler: nil)]) {
@@ -219,7 +153,29 @@ class UnitInitViewController: UIViewController {
             return
         }
         
+        for unit in self.selectedUnitVC.selectedUnit {
+            if let key = UnitData.BambooKey(rawValue: unit.key) {
+                let before = UserData.shared.yourUnits[.bamboo]!
+                let after = before.filter { item in
+                    item.id != unit.id
+                }
+                return
+            }
+            if let key = UnitData.CharacterKey(rawValue: unit.key) {
+                
+                return
+            }
+            if let key = UnitData.DotKey(rawValue: unit.key) {
+                
+                return
+            }
+            if let key = UnitData.KanjiKey(rawValue: unit.key) {
+                
+            }
+        }
+        
         UserData.shared.myUnit = self.selectedUnitVC.selectedUnit
+
         NotificationCenter.default.post(name: Notification.completUnitInit, object: nil)
         self.dismiss(animated: true, completion: nil)
     }

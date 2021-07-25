@@ -20,7 +20,7 @@ struct UnitData {
     enum KeyType:String {
         case kanji = "ka"
         case bamboo = "ba"
-        case dotKey = "do"
+        case dot = "do"
         case char = "ch"
     }
     
@@ -73,7 +73,7 @@ struct UnitData {
     static let SectionHeader:[KeyType:String] = [
         .bamboo:"삭수패",
         .char:"자패",
-        .dotKey:"통수패",
+        .dot:"통수패",
         .kanji:"만수패"
     ]
     
@@ -137,5 +137,5 @@ let text = [
 struct Unit {
     let id:String
     let image:UIImage
-    let text:String
+    let key:String
 }

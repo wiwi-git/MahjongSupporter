@@ -12,6 +12,7 @@ class MyUnitViewController: UIViewController {
     var collectionView: UICollectionView!
     var unitCountLabel = UILabel()
     let userData = UserData.shared
+    let addUnitVC = AddNewUnitViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +20,7 @@ class MyUnitViewController: UIViewController {
         let unitWidth = self.view.frame.width / 15 // 3 3 3 3 2 = 14
         let unitHeight = unitWidth * 240 / 160
         
+        /// stateBar
         let stateBarView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 30)))
         let unitCountGuideLabel = UILabel()
         unitCountGuideLabel.text = "Count: "
@@ -43,20 +45,8 @@ class MyUnitViewController: UIViewController {
             m.trailing.equalTo(self.unitCountLabel.snp.leading)
         }
         
-        let addButton = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 50)))
-        addButton.setTitle("ADD", for: .normal)
-        addButton.backgroundColor = .black
-        addButton.setTitleColor(.white, for: .normal)
         
-        self.view.addSubview(addButton)
-        addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
-        
-        addButton.snp.makeConstraints { m in
-            m.top.equalTo(stateBarView.snp.bottom)
-            m.leading.trailing.equalToSuperview()
-            m.height.equalTo(unitWidth)
-        }
-        
+        //MyUnit ColletionView
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: unitWidth, height: unitHeight)
         
@@ -69,8 +59,23 @@ class MyUnitViewController: UIViewController {
         self.collectionView.register(UINib(nibName: UnitCell.identifier, bundle: nil), forCellWithReuseIdentifier: UnitCell.reuseId)
         
         self.collectionView.snp.makeConstraints { m in
-            m.top.equalTo(addButton.snp.bottom)
+            m.top.equalTo(stateBarView.snp.bottom)
+            m.leading.trailing.equalToSuperview()
+        }
+        
+        // addButton
+        let addButton = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 50)))
+        addButton.setTitle("내 패 추가", for: .normal)
+        addButton.backgroundColor = .black
+        addButton.setTitleColor(.white, for: .normal)
+        
+        self.view.addSubview(addButton)
+        addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
+        
+        addButton.snp.makeConstraints { m in
+            m.top.equalTo(self.collectionView.snp.bottom)
             m.bottom.leading.trailing.equalToSuperview()
+            m.height.equalTo(unitWidth)
         }
     }
     
@@ -80,10 +85,10 @@ class MyUnitViewController: UIViewController {
     }
     
     @objc func addButtonAction() {
-        let vc = AddNewUnitViewController()
-        vc.view.frame = CGRect(origin: .zero, size: self.view.frame.size)
-        vc.view.backgroundColor = .white
-        self.present(vc, animated: true, completion: nil)
+        self.addUnitVC.view.frame = CGRect(origin: .zero, size: self.view.frame.size)
+        self.addUnitVC.view.backgroundColor = .white
+        self.addUnitVC.postTarget = .My
+        self.present(self.addUnitVC, animated: true, completion: nil)
     }
     
 }

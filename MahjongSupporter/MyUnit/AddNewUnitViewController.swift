@@ -8,8 +8,13 @@
 import UIKit
 
 class AddNewUnitViewController: UIViewController {
-    
     static let sbId = "sb_id_unitinit"
+    enum PostTarget {
+        case My
+        case Trash
+    }
+    var postTarget:PostTarget = .My
+    
     
     var totalData = [Unit]()
     let maxCount = 15
@@ -33,7 +38,7 @@ class AddNewUnitViewController: UIViewController {
     
     var sectionTitles:[String] = [
         UnitData.SectionHeader[.kanji]!,
-        UnitData.SectionHeader[.dotKey]!,
+        UnitData.SectionHeader[.dot]!,
         UnitData.SectionHeader[.bamboo]!,
         UnitData.SectionHeader[.char]!
     ]// 만수패, 통수패, 삭수패, 자패 순
@@ -114,7 +119,7 @@ class AddNewUnitViewController: UIViewController {
         self.bambooData.sort { $0.id < $1.id }
         self.charData = self.createUnits(type: .char, images: images.character)
         self.charData.sort { $0.id < $1.id }
-        self.dotData = self.createUnits(type: .dotKey, images: images.dot19)
+        self.dotData = self.createUnits(type: .dot, images: images.dot19)
         self.dotData.sort { $0.id < $1.id }
         
     }
@@ -143,7 +148,7 @@ class AddNewUnitViewController: UIViewController {
                 units[UnitData.CharacterKey.charNorth4.rawValue] = transImages[.charNorth4]
                 units[UnitData.CharacterKey.charSouth3.rawValue] = transImages[.charSouth3]
                 units[UnitData.CharacterKey.charWest2.rawValue] = transImages[.charWest2]
-            case .dotKey:
+            case .dot:
                 let transImages = images as! [UnitData.DotKey:UIImage]
                 units[UnitData.DotKey.dot1.rawValue] = transImages[.dot1]
                 units[UnitData.DotKey.dot2.rawValue] = transImages[.dot2]
@@ -174,7 +179,7 @@ class AddNewUnitViewController: UIViewController {
         let idSuffix = key[key.startIndex ..< key.index(key.startIndex, offsetBy: 3)]
         for key in units.keys {
             let image = units[key]!
-            result.append(Unit(id: idSuffix + "-\(key.last!)", image: image, text: key))
+            result.append(Unit(id: idSuffix + "-\(key.last!)", image: image, key: key))
         }
         return result
     }
@@ -196,9 +201,17 @@ class AddNewUnitViewController: UIViewController {
                 case .kanji:
                     unit = self.kanjiData[indexPath.item]
             }
+            
             let userInfo = ["unit":unit]
-            NotificationCenter.default.post(name: Notification.addUnit, object: nil, userInfo: userInfo)
+            if self.postTarget == .My {
+                NotificationCenter.default.post(name: Notification.addUnit, object: nil, userInfo: userInfo)
+            } else if self.postTarget == .Trash {
+                NotificationCenter.default.post(name: Notification.discardUnit, object: nil, userInfo: userInfo)
+            } else {
+                print("Error, invalid target => current:\(self.postTarget)")
+            }
             self.dismiss(animated: true, completion: nil)
+            
         } else {
             let alert = UIAlertController(title: nil, message: "패를 선택하셔야합니다.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: nil))
