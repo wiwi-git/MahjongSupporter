@@ -196,7 +196,9 @@ class AddNewUnitViewController: UIViewController {
                 case .kanji:
                     unit = self.kanjiData[indexPath.item]
             }
-            print(unit)
+            let userInfo = ["unit":unit]
+            NotificationCenter.default.post(name: Notification.addUnit, object: nil, userInfo: userInfo)
+            self.dismiss(animated: true, completion: nil)
         } else {
             let alert = UIAlertController(title: nil, message: "패를 선택하셔야합니다.", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: nil))

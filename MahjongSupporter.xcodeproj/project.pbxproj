@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		172BC6E426AD24A700F6783E /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BC6E326AD24A700F6783E /* UserData.swift */; };
+		172BC6E626AD289100F6783E /* TrashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BC6E526AD289100F6783E /* TrashViewController.swift */; };
+		172BC6E826AD294400F6783E /* NotificationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 172BC6E726AD294400F6783E /* NotificationName.swift */; };
 		177292BC26ABE40800A65380 /* MyUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177292BB26ABE40800A65380 /* MyUnitViewController.swift */; };
 		177292C026ABEC1400A65380 /* AddNewUnitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177292BF26ABEC1400A65380 /* AddNewUnitViewController.swift */; };
 		17BB350426A08B0900493DC9 /* UnitInitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17BB350326A08B0900493DC9 /* UnitInitViewController.swift */; };
@@ -45,6 +48,9 @@
 
 /* Begin PBXFileReference section */
 		06DF9D77B5988F8206EDC65B /* Pods-MahjongSupporter-MahjongSupporterUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MahjongSupporter-MahjongSupporterUITests.debug.xcconfig"; path = "Target Support Files/Pods-MahjongSupporter-MahjongSupporterUITests/Pods-MahjongSupporter-MahjongSupporterUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		172BC6E326AD24A700F6783E /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
+		172BC6E526AD289100F6783E /* TrashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrashViewController.swift; sourceTree = "<group>"; };
+		172BC6E726AD294400F6783E /* NotificationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationName.swift; sourceTree = "<group>"; };
 		177292BB26ABE40800A65380 /* MyUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyUnitViewController.swift; sourceTree = "<group>"; };
 		177292BF26ABEC1400A65380 /* AddNewUnitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewUnitViewController.swift; sourceTree = "<group>"; };
 		17BB350326A08B0900493DC9 /* UnitInitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitInitViewController.swift; sourceTree = "<group>"; };
@@ -109,6 +115,8 @@
 				973FEDFB269FE8B20054580B /* UnitData.swift */,
 				975E243226A52F67003314AD /* UnitCell.swift */,
 				975E243326A52F67003314AD /* UnitCell.xib */,
+				172BC6E326AD24A700F6783E /* UserData.swift */,
+				172BC6E726AD294400F6783E /* NotificationName.swift */,
 			);
 			path = Support;
 			sourceTree = "<group>";
@@ -162,6 +170,7 @@
 				97E1BBF3269D406B000A2E2E /* LaunchScreen.storyboard */,
 				97E1BBEE269D4068000A2E2E /* Main.storyboard */,
 				97E1BBEC269D4068000A2E2E /* MainViewController.swift */,
+				172BC6E526AD289100F6783E /* TrashViewController.swift */,
 				177292BD26ABE71600A65380 /* Support */,
 				177292BE26ABE73300A65380 /* MyUnit */,
 				9714073626AA70EF009E03D0 /* UnitInit */,
@@ -450,8 +459,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				17BB350426A08B0900493DC9 /* UnitInitViewController.swift in Sources */,
+				172BC6E826AD294400F6783E /* NotificationName.swift in Sources */,
+				172BC6E626AD289100F6783E /* TrashViewController.swift in Sources */,
 				177292BC26ABE40800A65380 /* MyUnitViewController.swift in Sources */,
 				97E1BBED269D4068000A2E2E /* MainViewController.swift in Sources */,
+				172BC6E426AD24A700F6783E /* UserData.swift in Sources */,
 				177292C026ABEC1400A65380 /* AddNewUnitViewController.swift in Sources */,
 				975E243426A52F67003314AD /* UnitCell.swift in Sources */,
 				97E1BBE9269D4068000A2E2E /* AppDelegate.swift in Sources */,

@@ -10,18 +10,38 @@ import SnapKit
 
 class MyUnitViewController: UIViewController {
     var collectionView: UICollectionView!
-    var myUnit = [Unit]() {
-        didSet{
-            print("myUnit didset")
-            self.myUnit.sort { $0.id < $1.id }
-            self.collectionView.reloadData()
-        }
-    }
+    var unitCountLabel = UILabel()
+    let userData = UserData.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(self.chageMyUnit), name: Notification.chageMyUnit, object: nil)
         let unitWidth = self.view.frame.width / 15 // 3 3 3 3 2 = 14
         let unitHeight = unitWidth * 240 / 160
+        
+        let stateBarView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 30)))
+        let unitCountGuideLabel = UILabel()
+        unitCountGuideLabel.text = "Count: "
+        self.unitCountLabel.text = "0"
+        unitCountGuideLabel.sizeToFit()
+        
+        stateBarView.addSubview(unitCountGuideLabel)
+        stateBarView.addSubview(self.unitCountLabel)
+        self.view.addSubview(stateBarView)
+        
+        stateBarView.snp.makeConstraints { m in
+            m.top.leading.trailing.equalToSuperview()
+            m.height.equalTo(unitCountGuideLabel.frame.height + 4)
+        }
+        
+        self.unitCountLabel.snp.makeConstraints { m in
+            m.top.bottom.equalToSuperview()
+            m.trailing.equalToSuperview().offset(-8)
+        }
+        unitCountGuideLabel.snp.makeConstraints { m in
+            m.top.bottom.equalToSuperview()
+            m.trailing.equalTo(self.unitCountLabel.snp.leading)
+        }
         
         let addButton = UIButton(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 50)))
         addButton.setTitle("ADD", for: .normal)
@@ -32,7 +52,8 @@ class MyUnitViewController: UIViewController {
         addButton.addTarget(self, action: #selector(addButtonAction), for: .touchUpInside)
         
         addButton.snp.makeConstraints { m in
-            m.top.leading.trailing.equalToSuperview()
+            m.top.equalTo(stateBarView.snp.bottom)
+            m.leading.trailing.equalToSuperview()
             m.height.equalTo(unitWidth)
         }
         
@@ -53,24 +74,43 @@ class MyUnitViewController: UIViewController {
         }
     }
     
+    @objc func chageMyUnit(){
+        self.unitCountLabel.text = "\(self.userData.myUnit.count)"
+        self.collectionView.reloadData()
+    }
+    
     @objc func addButtonAction() {
         let vc = AddNewUnitViewController()
         vc.view.frame = CGRect(origin: .zero, size: self.view.frame.size)
+        vc.view.backgroundColor = .white
         self.present(vc, animated: true, completion: nil)
     }
+    
 }
 extension MyUnitViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("MyUnit noiis count \(self.myUnit.count)")
-        return self.myUnit.count
+        return self.userData.myUnit.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UnitCell.reuseId, for: indexPath) as! UnitCell
-        let item = self.myUnit[indexPath.item]
+        let item = self.self.userData.myUnit[indexPath.item]
         cell.unitImageView.image = item.image
         cell.unitData = item
+        cell.layer.borderWidth = 1
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let alert = UIAlertController(title: nil, message: "이 패를 버리겠습니까?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Yes", style: .default, handler: { _ in
+            let item = self.userData.myUnit.remove(at: indexPath.item)
+            let userInfo = ["unit":item]
+            NotificationCenter.default.post(name: Notification.discardUnit, object: nil, userInfo: userInfo)
+        }))
+        alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: { _ in
+        }))
+        self.present(alert, animated: true, completion: nil)
     }
     
 }

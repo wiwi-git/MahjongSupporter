@@ -219,8 +219,8 @@ class UnitInitViewController: UIViewController {
             return
         }
         
-        let userInfo = ["units":self.selectedUnitVC.selectedUnit]
-        NotificationCenter.default.post(name: Notification.completUnitInit, object: nil, userInfo: userInfo)
+        UserData.shared.myUnit = self.selectedUnitVC.selectedUnit
+        NotificationCenter.default.post(name: Notification.completUnitInit, object: nil)
         self.dismiss(animated: true, completion: nil)
     }
     
