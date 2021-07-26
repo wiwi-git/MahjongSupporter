@@ -155,9 +155,15 @@ class UnitInitViewController: UIViewController {
         
         for unit in self.selectedUnitVC.selectedUnit {
             if let key = UnitData.BambooKey(rawValue: unit.key) {
-                let before = UserData.shared.yourUnits[.bamboo]!
-                let after = before.filter { item in
-                    item.id != unit.id
+                let addResult = UserData.shared.addUsedUnit(unit: unit)
+                if addResult, UserData.shared.getUsedUnitCount(unit: unit)! == UserData.unitMaxCount {
+                    let before = UserData.shared.yourUnits[.bamboo]!
+                    let after = before.filter { item in
+                        item.id != unit.id
+                    }
+                    UserData.shared.yourUnits[.bamboo] = after
+                } else {
+                    print("Error, 책갈피-")
                 }
                 return
             }

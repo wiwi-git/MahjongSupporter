@@ -28,6 +28,7 @@ class UserData: NSObject {
         self.yourUnits[.kanji] = kanjiData
     }
     static let shared = UserData()
+    static let unitMaxCount:Int = 4
     
     var yourUnits:[UnitData.KeyType:[Unit]] = [:]
     
@@ -42,6 +43,28 @@ class UserData: NSObject {
         didSet{
             NotificationCenter.default.post(name: Notification.chageTrashUnit, object: nil)
         }
+    }
+    
+    private var usedUnit:[String:Int] = [:]
+    
+    func getUsedUnitCount(unit:Unit) -> Int? {
+        if let value = self.usedUnit[unit.id] {
+            return value
+        }
+        return nil
+    }
+    
+    func addUsedUnit(unit:Unit) -> Bool {
+        if let value = self.usedUnit[unit.id] {
+            if (value + 1) < 4 {
+                self.usedUnit[unit.id]! += 1;
+                return true
+            }
+        } else {
+            self.usedUnit[unit.id] = 1
+            return true
+        }
+        return false
     }
     
     func insertNotificationObserver() {
