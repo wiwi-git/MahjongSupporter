@@ -127,11 +127,11 @@ class UnitInitViewController: UIViewController {
         self.alertVC = UIAlertController(title: nil, message: nil, preferredStyle: .alert)
         
         
-        addAllUnit()
+        self.fetchUnit()
         self.collectionView.reloadData()
     }
     
-    func addAllUnit() {
+    func fetchUnit() {
         let userData = UserData.shared
         self.kanjiData = userData.yourUnits[.kanji]!
         self.bambooData = userData.yourUnits[.bamboo]!
@@ -153,35 +153,45 @@ class UnitInitViewController: UIViewController {
             return
         }
         
+        let userData = UserData.shared
         for unit in self.selectedUnitVC.selectedUnit {
-            if let key = UnitData.BambooKey(rawValue: unit.key) {
-                let addResult = UserData.shared.addUsedUnit(unit: unit)
-                if addResult, UserData.shared.getUsedUnitCount(unit: unit)! == UserData.unitMaxCount {
-                    let before = UserData.shared.yourUnits[.bamboo]!
-                    let after = before.filter { item in
-                        item.id != unit.id
-                    }
-                    UserData.shared.yourUnits[.bamboo] = after
-                } else {
-                    print("Error, 책갈피-")
+            var beforeData:[Unit] = []
+            var keyType:UnitData.KeyType
+            switch UnitData.getKeyType(key: unit.id) {
+                case .bamboo:
+                    beforeData = userData.yourUnits[.bamboo]!
+                    keyType = .bamboo
+                case .char:
+                    beforeData = userData.yourUnits[.char]!
+                    keyType = .char
+                case .dot:
+                    beforeData = userData.yourUnits[.dot]!
+                    keyType = .dot
+                case .kanji:
+                    beforeData = userData.yourUnits[.kanji]!
+                    keyType = .kanji
+                case .none:
+                    print("Error, undefine key , \(String(describing: UnitData.getKeyType(key: unit.id)))")
+                    return
+            }
+            
+            let usedCount:Int = userData.getUsedUnitCount(unit: unit)!
+            if usedCount < UserData.unitMaxCount {
+                let after = beforeData.filter { item in
+                    item.id != unit.id
                 }
-                return
-            }
-            if let key = UnitData.CharacterKey(rawValue: unit.key) {
-                
-                return
-            }
-            if let key = UnitData.DotKey(rawValue: unit.key) {
-                
-                return
-            }
-            if let key = UnitData.KanjiKey(rawValue: unit.key) {
-                
+                if userData.addUsedUnit(unit: unit) {
+                    userData.yourUnits[keyType] = after
+                } else {
+                    print("Error, - ? UnitinitViewController - 187")
+                    return
+                }
+            } else {
+                print("Error, unit.count is max , \(String(describing: usedCount))")
             }
         }
         
         UserData.shared.myUnit = self.selectedUnitVC.selectedUnit
-
         NotificationCenter.default.post(name: Notification.completUnitInit, object: nil)
         self.dismiss(animated: true, completion: nil)
     }

@@ -23,6 +23,11 @@ struct UnitData {
         case dot = "do"
         case char = "ch"
     }
+    static func getKeyType(key:String) -> UnitData.KeyType? {
+        let lastIndex = key.index(key.startIndex, offsetBy: 2)
+        let filtered = key[key.startIndex ..< lastIndex]
+        return UnitData.KeyType(rawValue: String(filtered))
+    }
     
     enum KanjiKey: String {
         case kanji1 = "kanji1"

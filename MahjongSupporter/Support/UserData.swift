@@ -51,12 +51,13 @@ class UserData: NSObject {
         if let value = self.usedUnit[unit.id] {
             return value
         }
-        return nil
+        return 0
     }
     
     func addUsedUnit(unit:Unit) -> Bool {
         if let value = self.usedUnit[unit.id] {
-            if (value + 1) < 4 {
+            print("addUsedUnit value:\(value)")
+            if (value + 1) <= 4 {
                 self.usedUnit[unit.id]! += 1;
                 return true
             }
